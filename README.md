@@ -45,7 +45,7 @@ val duplicate = fn x1 => (x1, x1)
 
 ## Installing and Running
 1. Clone this repo.
-2. Install depdendencies. This tool requires Python 2, SML/NJ, and rlwrap be installed and be callable using the python, sml, and rlwrap commands respectively. If you'd like to use something different, you can change what is called in ./automl. It's just a sad hacky bash script :). 
+2. Install depdendencies. This tool requires Python 2, SML/NJ, and rlwrap be installed and be callable using the python, sml, and rlwrap commands respectively. If you'd like to use something different, you can change what is called in ./automl. It's just a sad hacky bash script :). Additionally, there's a compiled heap image for x86 Linux. If you need one for a different OS, I'd be happy to make one. This isn't a professional tool, it's just something I made for a course I'm teaching, so it's quite flimsy. 
 3. Create a file containing AutoML type annotations, examples of which can be found in the examples/ directory.
 4. Run AutoML:
 ```
