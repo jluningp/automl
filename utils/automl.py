@@ -18,7 +18,7 @@ def findAutoComment(f):
             mlVal = mlTyp[:findExn(mlTyp, ":")]
             mlTyp = mlTyp[findExn(mlTyp, ":") + 1:]
             mlTyp = mlTyp[:findExn(mlTyp, "!*)")]
-            process = subprocess.Popen(['utils/parser', mlTyp], stdout=subprocess.PIPE)
+            process = subprocess.Popen([dirpath + '/parser', mlTyp], stdout=subprocess.PIPE)
             typ = process.communicate()[0]
             code = getCode(typ, mlTyp)
             newFile.append(f)
@@ -29,7 +29,8 @@ def findAutoComment(f):
 
 
 def getCode(typ, ml):
-    process = subprocess.Popen(['sml', '@SMLload=utils/automl.x86-linux'], stdout=subprocess.PIPE, stdin=subprocess.PIPE)
+    smlImg = dirpath + "/automl.x86-linux"
+    process = subprocess.Popen(['sml', '@SMLload=' + smlImg], stdout=subprocess.PIPE, stdin=subprocess.PIPE)
 
     smlIn = ("open Prop;"
              "Term.printOptML (G4ip.certify(" + typ + "));")
@@ -44,9 +45,9 @@ def getCode(typ, ml):
 
 
 fil = sys.argv[1]
-if not os.path.exists("autogen-ml"):
+dirpath = os.path.dirname(os.path.realpath(__file__))
+if not os.path.exists(os.path.join(dirpath, "../autogen-ml")):
         os.makedirs("autogen-ml")
-
 
 automl_utils = ("structure AUTOML_UTILS = \n"
                 "struct\n"
@@ -60,7 +61,7 @@ automl_utils = ("structure AUTOML_UTILS = \n"
 with open(fil) as f:
     newFile = findAutoComment(f)
     newFile = [automl_utils] + newFile
-    filename = "autogen-ml/" + os.path.basename(fil)
+    filename = os.path.join(dirpath, "../autogen-ml/" + os.path.basename(fil))
     tmp = open(filename, "w+")
     for l in newFile:
         tmp.write(l)
