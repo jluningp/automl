@@ -46,7 +46,7 @@ val duplicate = fn x1 => (x1, x1)
 ## Installing and Running
 1. Clone this repo.
 2. Install depdendencies. This tool requires Python 2, SML/NJ, and rlwrap be installed and be callable using the python, sml, and rlwrap commands respectively. If you'd like to use something different, you can change what is called in ./automl. It's just a sad hacky bash script :). 
-3. Create a file containing AutoML type declarations, examples of which can be found in the examples/ directory.
+3. Create a file containing AutoML type annotations, examples of which can be found in the examples/ directory.
 4. Run AutoML:
 ```
 ./automl <sml file>
