@@ -33,10 +33,10 @@ if not os.path.exists(os.path.join(dirpath, "../autogen-ml")):
 
 automl_utils = ("structure AUTOML_UTILS = \n"
                 "struct\n"
-                "  datatype bottom = Bottom of bottom"
+                "  datatype void = Void of void"
                 "  fun fst (x, y) = x\n"
                 "  fun snd (x, y) = y\n"
-                "  fun abort x = case x of Bottom y => abort y\n"
+                "  fun abort x = case x of Void y => abort y\n"
                 "end\n"
                 )
 
