@@ -21,7 +21,11 @@ def findAutoComment(f):
             process = subprocess.Popen([dirpath + '/proveTheorem', mlTyp], stdout=subprocess.PIPE)
             code = process.communicate()[0]
             newFile.append(f)
-            newFile.append("val " + mlVal + "= " + code + "\n")
+            if "Fail" in code:
+                sys.stderr.write("  -  ERROR: " + mlVal.strip() + " could not be generated\n")
+            else:
+                sys.stderr.write("  -  " + mlVal.strip() + " generated\n")
+                newFile.append("val " + mlVal + "= " + code + "\n")
         except ValueError:
             newFile.append(f)
     return newFile
@@ -33,7 +37,7 @@ if not os.path.exists(os.path.join(dirpath, "../autogen-ml")):
 
 automl_utils = ("structure AUTOML_UTILS = \n"
                 "struct\n"
-                "  datatype void = Void of void"
+                "  datatype void = Void of void\n"
                 "  fun fst (x, y) = x\n"
                 "  fun snd (x, y) = y\n"
                 "  fun abort x = case x of Void y => abort y\n"
@@ -41,7 +45,9 @@ automl_utils = ("structure AUTOML_UTILS = \n"
                 )
 
 with open(fil) as f:
+    sys.stderr.write("AutoML Code Generator:\n")
     newFile = findAutoComment(f)
+    sys.stderr.write("\n")
     newFile = [automl_utils] + newFile
     filename = os.path.join(dirpath, "../autogen-ml/" + os.path.basename(fil))
     tmp = open(filename, "w+")
