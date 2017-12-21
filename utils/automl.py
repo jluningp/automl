@@ -18,31 +18,13 @@ def findAutoComment(f):
             mlVal = mlTyp[:findExn(mlTyp, ":")]
             mlTyp = mlTyp[findExn(mlTyp, ":") + 1:]
             mlTyp = mlTyp[:findExn(mlTyp, "!*)")]
-            process = subprocess.Popen([dirpath + '/parser', mlTyp], stdout=subprocess.PIPE)
-            typ = process.communicate()[0]
-            code = getCode(typ, mlTyp)
+            process = subprocess.Popen([dirpath + '/proveTheorem', mlTyp], stdout=subprocess.PIPE)
+            code = process.communicate()[0]
             newFile.append(f)
             newFile.append("val " + mlVal + "= " + code + "\n")
         except ValueError:
             newFile.append(f)
     return newFile
-
-
-def getCode(typ, ml):
-    smlImg = dirpath + "/automl.x86-linux"
-    process = subprocess.Popen(['sml', '@SMLload=' + smlImg], stdout=subprocess.PIPE, stdin=subprocess.PIPE)
-
-    smlIn = ("open Prop;"
-             "Term.printOptML (G4ip.certify(" + typ + "));")
-
-    stdout = process.communicate(smlIn)[0]
-    try:
-        expr = stdout[findExn(stdout, "SOME") + 4:]
-        expr = expr[:expr.find("val")]
-    except ValueError:
-        raise TypeError("Cannot synthesize type: " + ml)
-    return expr
-
 
 fil = sys.argv[1]
 dirpath = os.path.dirname(os.path.realpath(__file__))

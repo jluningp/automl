@@ -1,4 +1,3 @@
 #!/bin/bash
 
-smlprog=$1
-rlwrap sml $(python utils/automl.py $smlprog)
+rlwrap sml $(python utils/automl.py $1)
