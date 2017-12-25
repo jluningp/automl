@@ -25,7 +25,7 @@ def findAutoComment(f):
                 sys.stderr.write("  -  ERROR: " + mlVal.strip() + " could not be generated\n")
             else:
                 sys.stderr.write("  -  " + mlVal.strip() + " generated\n")
-                newFile.append("val " + mlVal + "= " + code + "\n")
+                newFile.append("val " + mlVal + " = " + code + "\n")
         except ValueError:
             newFile.append(f)
     return newFile
@@ -33,7 +33,7 @@ def findAutoComment(f):
 fil = sys.argv[1]
 dirpath = os.path.dirname(os.path.realpath(__file__))
 if not os.path.exists(os.path.join(dirpath, "../autogen-ml")):
-        os.makedirs("autogen-ml")
+        os.makedirs(os.path.join(dirpath, "../autogen-ml"))
 
 automl_utils = ("structure AUTOML_UTILS = \n"
                 "struct\n"
